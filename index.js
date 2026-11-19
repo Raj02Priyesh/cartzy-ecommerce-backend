@@ -47,17 +47,22 @@ const userBrandRoutes = require('./routes/user/brandRoutes');
 
 
 // Admin Routes
+// Signup/login are public; every other admin route requires a valid token with role "admin".
+const authenticate = require('./middlewares/authMiddleware');
+const requireRole = require('./middlewares/requireRole');
+const adminOnly = [authenticate, requireRole('admin')];
+
 app.use('/api/admin/auth', adminAuthRoutes);
-app.use('/api/admin/category', categoryRoutes);
-app.use('/api/admin/products', productRoutes);
-app.use('/api/admin/home-page', homePageRoutes);
-app.use('/api/admin/notifications', notificationRoutes);
-app.use('/api/admin/orders', adminOrderRoutes);
-app.use('/api/admin', profileRoutes);
-app.use('/api/admin/return-exchange', adminReturnExchangeRoutes);
-app.use('/api/admin/user-management', userManagementRoutes);
-app.use('/api/admin/brands', adminBrandRoutes);
-app.use('/api/admin/postal-codes', postalCodeRoutes);
+app.use('/api/admin/category', adminOnly, categoryRoutes);
+app.use('/api/admin/products', adminOnly, productRoutes);
+app.use('/api/admin/home-page', adminOnly, homePageRoutes);
+app.use('/api/admin/notifications', adminOnly, notificationRoutes);
+app.use('/api/admin/orders', adminOnly, adminOrderRoutes);
+app.use('/api/admin/return-exchange', adminOnly, adminReturnExchangeRoutes);
+app.use('/api/admin/user-management', adminOnly, userManagementRoutes);
+app.use('/api/admin/brands', adminOnly, adminBrandRoutes);
+app.use('/api/admin/postal-codes', adminOnly, postalCodeRoutes);
+app.use('/api/admin', adminOnly, profileRoutes);
 
 // User Routes
 app.use('/api/user', userRoutes);

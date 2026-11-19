@@ -43,6 +43,10 @@ exports.adminLogin = async (req, res) => {
       return res.status(404).json({ message: 'Admin not found' });
     }
 
+    if (admin.isDisabled) {
+      return res.status(403).json({ message: 'This account has been disabled.' });
+    }
+
     const isPasswordValid = await bcrypt.compare(password, admin.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid password' });
