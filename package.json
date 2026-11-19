@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon ./index.js",
-    "test:smoke": "node scripts/smoke-test.js"
+    "test:smoke": "node scripts/smoke-test.js",
+    "seed": "node scripts/seed-demo.js"
   },
   "author": "Priyesh Raj",
   "license": "MIT",

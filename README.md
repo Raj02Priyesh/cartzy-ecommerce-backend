@@ -126,6 +126,14 @@ npm run dev            # http://localhost:5000
 
 AWS S3 variables are only needed for image uploads; everything else works without them.
 
+To load demo data (8 categories, 5 brands, 12 products, home-page banners and best sellers):
+
+```bash
+npm run seed
+```
+
+The seed is idempotent — running it again updates the demo items instead of duplicating them. Product images are placeholder photos.
+
 ## Testing
 
 An end-to-end smoke test exercises **67 checks** across the whole shopping flow — sign-up, catalog, cart maths, checkout, order tracking, returns, ratings, and security (role checks, disabled accounts):
@@ -136,6 +144,8 @@ BASE_URL=https://cartzy-ecommerce-backend.onrender.com npm run test:smoke   # ag
 ```
 
 It creates its own test users and data, and removes the catalog items it created when it finishes.
+
+**Continuous integration:** every push and pull request runs `npm audit` and the full smoke test on GitHub Actions against a fresh MongoDB instance ([workflow](.github/workflows/ci.yml)).
 
 ## License
 
