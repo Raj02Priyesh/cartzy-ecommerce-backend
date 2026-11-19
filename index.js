@@ -6,12 +6,17 @@ const connectDB = require('./config/db');
 // Initialize Express
 const app = express();
 
-// Enable CORS for specific origins
+// CORS: the API authenticates with a Bearer token in the Authorization header (no cookies),
+// so any web client may call it. Set CORS_ORIGINS (comma-separated) to restrict browser origins.
+const allowedOrigins = (process.env.CORS_ORIGINS || '')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
 const corsOptions = {
-  origin: ['http://localhost:5000', 'https://all-mart-pro.vercel.app'], // Allow both localhost and deployed frontend
+  origin: allowedOrigins.length ? allowedOrigins : '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // Allow cookies and authorization headers
-  optionsSuccessStatus: 204, // Some legacy browsers (IE11, SmartTVs) choke on 204
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
 
