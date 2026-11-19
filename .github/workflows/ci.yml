@@ -44,6 +44,9 @@ jobs:
       - name: Security audit
         run: npm audit --audit-level=high
 
+      - name: Seed demo data
+        run: npm run seed
+
       - name: Start API server
         run: |
           npm start > server.log 2>&1 &

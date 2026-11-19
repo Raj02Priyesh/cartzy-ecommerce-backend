@@ -1,6 +1,7 @@
 const User = require('../../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { isDemoUser } = require('../../config/demo');
 
 // User Signup
 exports.signup = async (req, res) => {
@@ -158,6 +159,10 @@ exports.changePassword = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (isDemoUser(user.email)) {
+      return res.status(403).json({ message: 'The password of the public demo account cannot be changed.' });
     }
 
     const isPasswordValid = await bcrypt.compare(oldPassword, user.password);

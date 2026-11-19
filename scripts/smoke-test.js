@@ -171,6 +171,15 @@ async function check(name, method, path, opts, expect) {
   await check('SECURITY: disabled user cannot log in', 'POST', '/api/user/login', { body: { email: userEmail, password: pw } }, [401, 403]);
   await check('Admin enable user', 'PUT', `/api/admin/user-management/users/${userId}/enable`, { token: A }, 200);
 
+  // ---------- Public demo account (only if it has been seeded) ----------
+  const demoEmail = process.env.DEMO_USER_EMAIL || 'demo@cartzy.app';
+  const demoPw = process.env.DEMO_USER_PASSWORD || 'demo1234';
+  const demo = await call('POST', '/api/user/login', { body: { email: demoEmail, password: demoPw } });
+  if (demo.status === 200) {
+    await check('SECURITY: demo account password cannot be changed', 'PUT', '/api/user/change-password',
+      { token: demo.data.token, body: { oldPassword: demoPw, newPassword: `changed-${run}` } }, 403);
+  }
+
   // ---------- Cleanup catalog test data ----------
   for (const id of [prodId, prod2Id, hackId]) if (id) await call('DELETE', `/api/admin/products/delete/${id}`, { token: A });
   if (catId) await call('DELETE', `/api/admin/category/delete/${catId}`, { token: A });

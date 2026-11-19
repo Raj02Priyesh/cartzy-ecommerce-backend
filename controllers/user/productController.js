@@ -12,7 +12,7 @@ const calculateOverallRating = (ratings) => {
 // Get all products
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({ isActive: true }).populate('category', 'name');
+    const products = await Product.find({ isActive: true }).populate('category', 'name').populate('brand', 'name');
     res.status(200).json({message: 'Products fetched successfully.', products : products});
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch products', error });
@@ -23,7 +23,7 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductById = async (req, res) => {
   const { id } = req.params;
   try {
-    const product = await Product.findById(id).populate('category', 'name');
+    const product = await Product.findById(id).populate('category', 'name').populate('brand', 'name');
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.status(200).json({message: 'Product fetched successfully.', product : product});
   } catch (error) {

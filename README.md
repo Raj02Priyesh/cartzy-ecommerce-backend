@@ -7,6 +7,8 @@ Try it: [`GET /api/user/products/all`](https://cartzy-ecommerce-backend.onrender
 
 > Hosted on Render's free tier — the first request after ~15 minutes idle can take up to a minute while the server wakes up.
 
+**Demo shopper login:** `demo@cartzy.app` / `demo1234` — a public sample account (shopper role only; its password can't be changed).
+
 ---
 
 ## Features
@@ -126,17 +128,17 @@ npm run dev            # http://localhost:5000
 
 AWS S3 variables are only needed for image uploads; everything else works without them.
 
-To load demo data (8 categories, 5 brands, 12 products, home-page banners and best sellers):
+To load demo data (8 categories, 5 brands, 12 products, home-page banners, best sellers and the demo shopper account):
 
 ```bash
 npm run seed
 ```
 
-The seed is idempotent — running it again updates the demo items instead of duplicating them. Product images are placeholder photos.
+The seed is idempotent — running it again updates the demo items instead of duplicating them. Product photos are free-licence images from [Unsplash](https://unsplash.com/license).
 
 ## Testing
 
-An end-to-end smoke test exercises **67 checks** across the whole shopping flow — sign-up, catalog, cart maths, checkout, order tracking, returns, ratings, and security (role checks, disabled accounts):
+An end-to-end smoke test exercises **68 checks** across the whole shopping flow — sign-up, catalog, cart maths, checkout, order tracking, returns, ratings, and security (role checks, disabled accounts, demo-account lock):
 
 ```bash
 npm run test:smoke                                             # against localhost
