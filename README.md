@@ -9,6 +9,8 @@ Try it: [`GET /api/user/products/all`](https://cartzy-ecommerce-backend.onrender
 
 **Demo shopper login:** `demo@cartzy.app` / `demo1234` — a public sample account (shopper role only; its password can't be changed).
 
+**Client app:** this API powers the [Cartzy Flutter shopping app](https://github.com/Raj02Priyesh/cartzy-shop-app) — [try it in your browser](https://raj02priyesh.github.io/cartzy-shop-app/).
+
 ---
 
 ## Features
