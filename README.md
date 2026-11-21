@@ -65,7 +65,7 @@ docs/          Postman collection
 
 ## API overview
 
-All endpoints are prefixed with `/api`. 🔒 = requires `Authorization: Bearer <token>`. 🛡️ = requires an **admin** token.
+All endpoints are prefixed with `/api`. Shopper endpoints need an `Authorization: Bearer <token>` header; admin endpoints need an **admin** token.
 
 ### Authentication
 | Method | Endpoint | Description |
@@ -88,7 +88,7 @@ All endpoints are prefixed with `/api`. 🔒 = requires `Authorization: Bearer <
 | GET | `/user/brands/all` | All brands |
 | GET | `/user/home-page/{banners,top-categories,best-selling-products}` | Storefront content |
 
-### Shopper 🔒
+### Shopper (login required)
 | Method | Endpoint | Description |
 |---|---|---|
 | PUT | `/user/update` | Update name / phone |
@@ -103,7 +103,7 @@ All endpoints are prefixed with `/api`. 🔒 = requires `Authorization: Bearer <
 | POST · GET | `/user/return-exchange/return-exchange` | Request / list returns |
 | POST | `/user/products/rate/:id` | Rate a product |
 
-### Admin 🛡️
+### Admin (admin token required)
 | Area | Base path |
 |---|---|
 | Products | `/admin/products` - `add`, `edit/:id`, `delete/:id`, `set-stock/:id`, `assign-discount/:id`, `all`, `search` |
