@@ -51,36 +51,53 @@ const userNotificationRoutes = require('./routes/user/notificationRoutes');
 const userBrandRoutes = require('./routes/user/brandRoutes');
 
 
-// Admin Routes
-// Signup/login are public; every other admin route requires a valid token with role "admin".
+// Route table: used both to mount the routers and to generate the API docs.
+// Admin signup/login are public; every other admin route requires a token with role "admin".
 const authenticate = require('./middlewares/authMiddleware');
 const requireRole = require('./middlewares/requireRole');
 const adminOnly = [authenticate, requireRole('admin')];
 
-app.use('/api/admin/auth', adminAuthRoutes);
-app.use('/api/admin/category', adminOnly, categoryRoutes);
-app.use('/api/admin/products', adminOnly, productRoutes);
-app.use('/api/admin/home-page', adminOnly, homePageRoutes);
-app.use('/api/admin/notifications', adminOnly, notificationRoutes);
-app.use('/api/admin/orders', adminOnly, adminOrderRoutes);
-app.use('/api/admin/return-exchange', adminOnly, adminReturnExchangeRoutes);
-app.use('/api/admin/user-management', adminOnly, userManagementRoutes);
-app.use('/api/admin/brands', adminOnly, adminBrandRoutes);
-app.use('/api/admin/postal-codes', adminOnly, postalCodeRoutes);
-app.use('/api/admin', adminOnly, profileRoutes);
+const mounts = [
+  { path: '/api/user', router: userRoutes, tag: 'Shopper · Account' },
+  { path: '/api/user/products', router: userProductRoutes, tag: 'Shopper · Products' },
+  { path: '/api/user/categories', router: userCategoryRoutes, tag: 'Shopper · Categories' },
+  { path: '/api/user/brands', router: userBrandRoutes, tag: 'Shopper · Brands' },
+  { path: '/api/user/home-page', router: userHomePageRoutes, tag: 'Shopper · Home page' },
+  { path: '/api/user/wishlist', router: wishlistRoutes, tag: 'Shopper · Wishlist' },
+  { path: '/api/user/cart', router: cartRoutes, tag: 'Shopper · Cart' },
+  { path: '/api/user/orders', router: userOrderRoutes, tag: 'Shopper · Orders' },
+  { path: '/api/user/tracking', router: trackingRoutes, tag: 'Shopper · Order tracking' },
+  { path: '/api/user/return-exchange', router: userReturnExchangeRoutes, tag: 'Shopper · Returns' },
+  { path: '/api/user/notifications', router: userNotificationRoutes, tag: 'Shopper · Notifications' },
+  { path: '/api/admin/auth', router: adminAuthRoutes, tag: 'Admin · Auth' },
+  { path: '/api/admin/products', router: productRoutes, tag: 'Admin · Products', admin: true },
+  { path: '/api/admin/category', router: categoryRoutes, tag: 'Admin · Categories', admin: true },
+  { path: '/api/admin/brands', router: adminBrandRoutes, tag: 'Admin · Brands', admin: true },
+  { path: '/api/admin/orders', router: adminOrderRoutes, tag: 'Admin · Orders', admin: true },
+  { path: '/api/admin/return-exchange', router: adminReturnExchangeRoutes, tag: 'Admin · Returns', admin: true },
+  { path: '/api/admin/user-management', router: userManagementRoutes, tag: 'Admin · Customers', admin: true },
+  { path: '/api/admin/home-page', router: homePageRoutes, tag: 'Admin · Home page', admin: true },
+  { path: '/api/admin/notifications', router: notificationRoutes, tag: 'Admin · Notifications', admin: true },
+  { path: '/api/admin/postal-codes', router: postalCodeRoutes, tag: 'Admin · Postal codes', admin: true },
+  { path: '/api/admin', router: profileRoutes, tag: 'Admin · Profile', admin: true },
+];
 
-// User Routes
-app.use('/api/user', userRoutes);
-app.use('/api/user/home-page', userHomePageRoutes);
-app.use('/api/user/categories', userCategoryRoutes);
-app.use('/api/user/products', userProductRoutes);
-app.use('/api/user/wishlist', wishlistRoutes);
-app.use('/api/user/cart', cartRoutes);
-app.use('/api/user/orders', userOrderRoutes);
-app.use('/api/user/tracking', trackingRoutes);
-app.use('/api/user/return-exchange', userReturnExchangeRoutes);
-app.use('/api/user/notifications', userNotificationRoutes);
-app.use('/api/user/brands', userBrandRoutes);
+for (const { path, router, admin } of mounts) {
+  if (admin) app.use(path, adminOnly, router);
+  else app.use(path, router);
+}
+
+// API docs: OpenAPI spec generated from the route table, browsable with Swagger UI
+const swaggerUi = require('swagger-ui-express');
+const { buildOpenApiSpec } = require('./docs/openapi');
+const openApiSpec = buildOpenApiSpec(mounts);
+app.get('/api-docs.json', (req, res) => res.json(openApiSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiSpec, {
+  customSiteTitle: 'Cartzy API docs',
+  customCss: '.swagger-ui .topbar { display: none }',
+  swaggerOptions: { persistAuthorization: true, docExpansion: 'none', tagsSorter: undefined, displayRequestDuration: true },
+}));
+app.get('/', (req, res) => res.redirect('/api-docs'));
 
 // Connect to Database
 connectDB();

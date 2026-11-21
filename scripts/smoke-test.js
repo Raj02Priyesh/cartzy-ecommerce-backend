@@ -41,6 +41,11 @@ async function check(name, method, path, opts, expect) {
 (async () => {
   console.log(`Testing ${BASE}\n`);
 
+  // ---------- API docs ----------
+  const spec = await check('OpenAPI spec', 'GET', '/api-docs.json', {}, 200);
+  const specPaths = Object.keys((spec.data && spec.data.paths) || {}).length;
+  results.push({ name: 'OpenAPI spec documents the routes', ok: specPaths > 100, detail: `${specPaths} paths` });
+
   // ---------- Auth ----------
   const adminEmail = `admin.${run}@example.com`;
   const userEmail = `user.${run}@example.com`;

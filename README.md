@@ -3,6 +3,7 @@
 A production-style backend for an online store: product catalog, cart, wishlist, orders with tracking, returns/exchanges, ratings, and a full admin panel API.
 
 **Live API:** https://cartzy-ecommerce-backend.onrender.com
+**Interactive docs (Swagger UI):** https://cartzy-ecommerce-backend.onrender.com/api-docs
 Try it: [`GET /api/user/products/all`](https://cartzy-ecommerce-backend.onrender.com/api/user/products/all)
 
 > Hosted on Render's free tier - the first request after ~15 minutes idle can take up to a minute while the server wakes up.
@@ -48,6 +49,7 @@ Try it: [`GET /api/user/products/all`](https://cartzy-ecommerce-backend.onrender
 | Database | MongoDB Atlas with Mongoose |
 | Auth | JSON Web Tokens, bcrypt |
 | File uploads | Multer + AWS S3 (optional) |
+| API docs | OpenAPI 3, Swagger UI |
 | Hosting | Render (API), MongoDB Atlas (database) |
 
 ## Project structure
@@ -60,7 +62,7 @@ middlewares/   authentication and role checks
 models/        Mongoose schemas
 routes/        route definitions (admin/ and user/)
 scripts/       end-to-end smoke test
-docs/          Postman collection
+docs/          OpenAPI spec builder and Postman collection
 ```
 
 ## API overview
@@ -116,6 +118,8 @@ All endpoints are prefixed with `/api`. Shopper endpoints need an `Authorization
 | Notifications | `/admin/notifications` |
 | Postal codes | `/admin/postal-codes` |
 
+**Swagger UI** at [`/api-docs`](https://cartzy-ecommerce-backend.onrender.com/api-docs) lists every endpoint and lets you call them from the browser: log in with the demo shopper, click **Authorize** and paste the token. The OpenAPI spec is generated from the route table at startup (see [`docs/openapi.js`](docs/openapi.js)), so it always matches the real routes; the raw JSON is at `/api-docs.json`.
+
 A complete **Postman collection** with example requests is in [`docs/`](docs/Ecommerce_Nodejs.postman_collection.json). Set the collection variables `baseUrl`, `adminToken` and `userToken` after logging in.
 
 ## Run locally
@@ -140,7 +144,7 @@ The seed is idempotent - running it again updates the demo items instead of dupl
 
 ## Testing
 
-An end-to-end smoke test exercises **68 checks** across the whole shopping flow - sign-up, catalog, cart maths, checkout, order tracking, returns, ratings, and security (role checks, disabled accounts, demo-account lock):
+An end-to-end smoke test exercises **70 checks** across the whole shopping flow - sign-up, catalog, cart maths, checkout, order tracking, returns, ratings, and security (role checks, disabled accounts, demo-account lock):
 
 ```bash
 npm run test:smoke                                             # against localhost
