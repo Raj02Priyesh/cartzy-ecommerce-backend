@@ -117,10 +117,11 @@ const products = [
 ];
 
 const postalCodes = [
-  { district: 'Bhopal', subordinate: 'Huzur', branch: 'MANIT', ZipCode: '462003' },
-  { district: 'Mumbai', subordinate: 'Andheri', branch: 'Andheri East', ZipCode: '400069' },
-  { district: 'Bengaluru', subordinate: 'Bengaluru South', branch: 'Koramangala', ZipCode: '560034' },
-  { district: 'New Delhi', subordinate: 'Connaught Place', branch: 'Connaught Place', ZipCode: '110001' },
+  { district: 'Pune', subordinate: 'Pune City', branch: 'Baner', ZipCode: '411045' },
+  { district: 'Pune', subordinate: 'Pune City', branch: 'Kothrud', ZipCode: '411038' },
+  { district: 'Pune', subordinate: 'Pune City', branch: 'Koregaon Park', ZipCode: '411001' },
+  { district: 'Pune', subordinate: 'Pune City', branch: 'Viman Nagar', ZipCode: '411014' },
+  { district: 'Pune', subordinate: 'Mulshi', branch: 'Hinjewadi', ZipCode: '411057' },
 ];
 
 (async () => {
@@ -210,8 +211,8 @@ const postalCodes = [
       phone: '9876543210',
       isDisabled: false,
       addresses: [{
-        street: '12B, Lake View Apartments, 80 Feet Road', city: 'Bengaluru', district: 'Bengaluru Urban',
-        subordinate: 'Bengaluru South', branch: 'Koramangala', state: 'Karnataka', zipCode: '560034', country: 'India',
+        street: '12B, Green Park Society, Baner Road', city: 'Pune', district: 'Pune',
+        subordinate: 'Pune City', branch: 'Baner', state: 'Maharashtra', zipCode: '411045', country: 'India',
       }],
     },
     { upsert: true, new: true }

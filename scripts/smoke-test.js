@@ -99,7 +99,7 @@ async function check(name, method, path, opts, expect) {
   await check('Admin add notification', 'POST', '/api/admin/notifications/add',
     { token: A, body: { title: 'Sale', message: 'Smoke test notification', type: 'deal', audience: 'all' } }, [200, 201]);
   await check('Admin add postal code', 'POST', '/api/admin/postal-codes/create',
-    { token: A, body: { district: 'Bhopal', subordinate: 'Huzur', branch: 'MANIT', ZipCode: '462003' } }, [200, 201]);
+    { token: A, body: { district: 'Pune', subordinate: 'Pune City', branch: 'Aundh', ZipCode: '411007' } }, [200, 201]);
 
   // ---------- Public catalog ----------
   await check('Public: all brands', 'GET', '/api/user/brands/all', {}, 200);
@@ -118,7 +118,7 @@ async function check(name, method, path, opts, expect) {
   // ---------- User account ----------
   await check('User update details', 'PUT', '/api/user/update', { token: U, body: { name: 'Test User Updated', phone: '9876543210' } }, 200);
   const addr = await check('User add address', 'POST', '/api/user/address/add', {
-    token: U, body: { street: '1 Test St', city: 'Bhopal', district: 'Bhopal', subordinate: 'Huzur', branch: 'MANIT', state: 'MP', zipCode: '462003', country: 'India' },
+    token: U, body: { street: '1 Test Lane, Aundh', city: 'Pune', district: 'Pune', subordinate: 'Pune City', branch: 'Aundh', state: 'Maharashtra', zipCode: '411007', country: 'India' },
   }, 201);
   const addresses = addr.data && addr.data.addresses;
   const addressId = addresses && addresses.length && addresses[addresses.length - 1]._id;

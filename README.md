@@ -1,15 +1,15 @@
-# Cartzy — E-commerce REST API
+# Cartzy - E-commerce REST API
 
 A production-style backend for an online store: product catalog, cart, wishlist, orders with tracking, returns/exchanges, ratings, and a full admin panel API.
 
 **Live API:** https://cartzy-ecommerce-backend.onrender.com
 Try it: [`GET /api/user/products/all`](https://cartzy-ecommerce-backend.onrender.com/api/user/products/all)
 
-> Hosted on Render's free tier — the first request after ~15 minutes idle can take up to a minute while the server wakes up.
+> Hosted on Render's free tier - the first request after ~15 minutes idle can take up to a minute while the server wakes up.
 
-**Demo shopper login:** `demo@cartzy.app` / `demo1234` — a public sample account (shopper role only; its password can't be changed).
+**Demo shopper login:** `demo@cartzy.app` / `demo1234` - a public sample account (shopper role only; its password can't be changed).
 
-**Client app:** this API powers the [Cartzy Flutter shopping app](https://github.com/Raj02Priyesh/cartzy-shop-app) — [try it in your browser](https://raj02priyesh.github.io/cartzy-shop-app/).
+**Client app:** this API powers the [Cartzy Flutter shopping app](https://github.com/Raj02Priyesh/cartzy-shop-app) - [try it in your browser](https://raj02priyesh.github.io/cartzy-shop-app/).
 
 ---
 
@@ -34,7 +34,7 @@ Try it: [`GET /api/user/products/all`](https://cartzy-ecommerce-backend.onrender
 - Serviceable postal-code management and shipping-address verification
 
 **Security**
-- Role-based access control — every admin route requires an `admin` token
+- Role-based access control - every admin route requires an `admin` token
 - Disabled accounts cannot log in
 - Admin registration protected by a secret key
 - No secrets in the repo (`.env` is git-ignored; see `.env.example`)
@@ -106,13 +106,13 @@ All endpoints are prefixed with `/api`. 🔒 = requires `Authorization: Bearer <
 ### Admin 🛡️
 | Area | Base path |
 |---|---|
-| Products | `/admin/products` — `add`, `edit/:id`, `delete/:id`, `set-stock/:id`, `assign-discount/:id`, `all`, `search` |
+| Products | `/admin/products` - `add`, `edit/:id`, `delete/:id`, `set-stock/:id`, `assign-discount/:id`, `all`, `search` |
 | Categories | `/admin/category` |
 | Brands | `/admin/brands` |
-| Orders | `/admin/orders/orders` — `:id/status`, `:id/tracking`, `:id/payment-status`, `:id/delivery-agent`, `:id/cancel` |
+| Orders | `/admin/orders/orders` - `:id/status`, `:id/tracking`, `:id/payment-status`, `:id/delivery-agent`, `:id/cancel` |
 | Returns | `/admin/return-exchange/return-exchange/:requestId` |
-| Customers | `/admin/user-management/users` — search, update, `disable`, `enable` |
-| Home page | `/admin/home-page` — banners, top categories, best sellers |
+| Customers | `/admin/user-management/users` - search, update, `disable`, `enable` |
+| Home page | `/admin/home-page` - banners, top categories, best sellers |
 | Notifications | `/admin/notifications` |
 | Postal codes | `/admin/postal-codes` |
 
@@ -136,11 +136,11 @@ To load demo data (8 categories, 5 brands, 12 products, home-page banners, best 
 npm run seed
 ```
 
-The seed is idempotent — running it again updates the demo items instead of duplicating them. Product photos are free-licence images from [Unsplash](https://unsplash.com/license).
+The seed is idempotent - running it again updates the demo items instead of duplicating them. Product photos are free-licence images from [Unsplash](https://unsplash.com/license).
 
 ## Testing
 
-An end-to-end smoke test exercises **68 checks** across the whole shopping flow — sign-up, catalog, cart maths, checkout, order tracking, returns, ratings, and security (role checks, disabled accounts, demo-account lock):
+An end-to-end smoke test exercises **68 checks** across the whole shopping flow - sign-up, catalog, cart maths, checkout, order tracking, returns, ratings, and security (role checks, disabled accounts, demo-account lock):
 
 ```bash
 npm run test:smoke                                             # against localhost
